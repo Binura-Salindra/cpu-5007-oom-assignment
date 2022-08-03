@@ -38,7 +38,7 @@ class ChannelControllerImplTest {
     @Test
     @DisplayName("Test Subscribe User to Channel")
     void subscribeUserToChannel() {
-        
+
         //check subscribe process with valid user - check return type
         assertTrue(channelSubject.registerObserver(testObserver));
 
