@@ -52,14 +52,6 @@ class UserControllerImplTest {
 
         //check channel list not null when empty
         assertNotNull(channelList);
-
-        //check channel list size if 0 when empty
-        assertEquals(0, channelList.size());
-
-        //check channel list size when after adding channel
-        channelListSubject.registerNewChannel(new ChannelSubject("Testing channel"));
-        assertEquals(1, channelList.size());
-
     }
 
     static class TestObserverUser implements Observer {
