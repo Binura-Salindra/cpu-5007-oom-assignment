@@ -16,7 +16,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes "Main-Class": "com.gradle.tutorial.FizzBuzzProcessor"
+        attributes "Main-Class": "uk.bolton.oom.main.Main"
     }
 
     from {
