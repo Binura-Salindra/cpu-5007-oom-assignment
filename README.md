@@ -4,8 +4,7 @@ OOM  Assignment
 ## Overview
 This repository contains all the code of this assignment.
 
-##Guidelines
-
+## Guidelines
 This is a Desktop application and to run this, you should have installed the Java 1.8 version with the JVM.
 
 * If not refer this link, download and install it. [Java SE 1.8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
@@ -14,13 +13,12 @@ Then, ensure that the git client version control software has been installed.
 
 * If not refer this link, download and install it. [Git](https://git-scm.com/downloads)
 
-##How to run this App?
-
+## How to run this App?
 There are two ways to run this application.
 * Run application using IDE
 * Run application using Jar File
 
-####Run application using IDE
+### Run application using IDE
 1). Clone the repository to your machine.
 
 * git clone https://github.com/Binura-Salindra/cpu-5007-oom-assignment.git
@@ -36,7 +34,7 @@ There are two ways to run this application.
 
 Then find the for the file called `Main.java`. and run the method called `public static void main ()`
 
-####Run application using Jar File
+### Run application using Jar File
 1). Clone the repository to your machine.
 
 * git clone https://github.com/Binura-Salindra/cpu-5007-oom-assignment.git
