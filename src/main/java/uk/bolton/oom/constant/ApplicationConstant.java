@@ -19,5 +19,7 @@ public class ApplicationConstant {
     public static final String ERROR_MSG_UNEXPECTED = "An unexpected error occurred";
 
 
+    public static final String BUTTON_TEXT_SUBSCRIBE = "SUBSCRIBE";
 
+    public static final String BUTTON_TEXT_UNSUBSCRIBE = "UNSUBSCRIBE";
 }

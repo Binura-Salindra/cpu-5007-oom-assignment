@@ -16,7 +16,7 @@ import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static uk.bolton.oom.constant.ApplicationConstant.ERROR_MSG_UNEXPECTED;
+import static uk.bolton.oom.constant.ApplicationConstant.*;
 
 /**
  * @author Binura
@@ -73,7 +73,7 @@ public class ChannelCard extends javax.swing.JPanel {
         btnSubscribe.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 24)); // NOI18N
         btnSubscribe.setForeground(new java.awt.Color(255, 255, 255));
         btnSubscribe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnSubscribe.setText("subscribe");
+        btnSubscribe.setText(BUTTON_TEXT_SUBSCRIBE);
         btnSubscribe.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(220, 75, 56)));
         btnSubscribe.setOpaque(true);
         btnSubscribe.setPreferredSize(new Dimension(630, 0));
@@ -114,15 +114,22 @@ public class ChannelCard extends javax.swing.JPanel {
     private void btnSubscribeMouseClicked(java.awt.event.MouseEvent evt) {
         try {
 
-            subscribeUserToChannel();
-            showSuccessMessageInDialogBox(String.format("Successfully subscribe to %s channel.", channelSubject.getChannelName()));
+            if (btnSubscribe.getText().equals(BUTTON_TEXT_SUBSCRIBE)) {
+                subscribeUserToChannel();
+                showSuccessMessageInDialogBox(String.format("Successfully subscribe to %s channel.", channelSubject.getChannelName()));
+                changeButtonAppearanceToUnSub();
+            } else {
+                unSubscribeUserFromChannel();
+                showSuccessMessageInDialogBox(String.format("Successfully unsubscribe from %s channel.", channelSubject.getChannelName()));
+                changeButtonAppearanceToSub();
+            }
 
         } catch (ChannelCustomException e) {
-            LOGGER.log(Level.SEVERE, "Method :  subscribeUserToChannel", e);
+            LOGGER.log(Level.SEVERE, "Method :  subscribe / unsubscribe UserToChannel", e);
             showErrorMessageInDialogBox(e.getMessage());
 
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Method :  subscribeUserToChannel", e);
+            LOGGER.log(Level.SEVERE, "Method :  subscribe / unsubscribe UserToChannel", e);
             showErrorMessageInDialogBox(ERROR_MSG_UNEXPECTED);
         }
     }
@@ -141,9 +148,19 @@ public class ChannelCard extends javax.swing.JPanel {
     }
 
 
-    private void showSuccessMessageInDialogBox(String successMessage){
+    private void showSuccessMessageInDialogBox(String successMessage) {
         JOptionPane.showMessageDialog(this, successMessage,
                 "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void changeButtonAppearanceToSub(){
+        btnSubscribe.setBackground(new java.awt.Color(220, 75, 56));
+        btnSubscribe.setText(BUTTON_TEXT_SUBSCRIBE);
+    }
+
+    private void changeButtonAppearanceToUnSub(){
+        btnSubscribe.setBackground(new java.awt.Color(108, 122, 137));
+        btnSubscribe.setText(BUTTON_TEXT_UNSUBSCRIBE);
     }
 
 }
