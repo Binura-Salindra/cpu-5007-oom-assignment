@@ -6,17 +6,24 @@
 package uk.bolton.oom.view.panel;
 
 import uk.bolton.oom.controller.ChannelController;
+import uk.bolton.oom.exception.ChannelCustomException;
 import uk.bolton.oom.factory.ControllerFactory;
 import uk.bolton.oom.observer.ChannelSubject;
 import uk.bolton.oom.observer.Observer;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static uk.bolton.oom.constant.ApplicationConstant.ERROR_MSG_UNEXPECTED;
 
 /**
- *
  * @author Binura
  */
 public class ChannelCard extends javax.swing.JPanel {
+
+    private static final Logger LOGGER = Logger.getLogger(ChannelCard.class.getName());
 
     /**
      * GUI Components
@@ -37,7 +44,6 @@ public class ChannelCard extends javax.swing.JPanel {
         this.userObserver = userObserver;
         this.channelController = (ChannelController) ControllerFactory.getInstance()
                 .getController(ControllerFactory.ControllerTypes.CHANNEL);
-        initComponents();
         initComponents();
     }
 
@@ -80,41 +86,64 @@ public class ChannelCard extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblChannelName, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
-                    .addComponent(btnSubscribe, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblChannelName, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
+                                        .addComponent(btnSubscribe, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblChannelName, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnSubscribe, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lblChannelName, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSubscribe, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         this.setPreferredSize(new Dimension(420, 145));
-        this.setMinimumSize(new Dimension(420,145));
-        this.setMaximumSize(new Dimension(420,145));
+        this.setMinimumSize(new Dimension(420, 145));
+        this.setMaximumSize(new Dimension(420, 145));
         lblChannelName.setText(channelSubject.getChannelName());
     }
 
 
     private void btnSubscribeMouseClicked(java.awt.event.MouseEvent evt) {
-       subscribeUserToChannel();
+        try {
+
+            subscribeUserToChannel();
+            showSuccessMessageInDialogBox(String.format("Successfully subscribe to %s channel.", channelSubject.getChannelName()));
+
+        } catch (ChannelCustomException e) {
+            LOGGER.log(Level.SEVERE, "Method :  subscribeUserToChannel", e);
+            showErrorMessageInDialogBox(e.getMessage());
+
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Method :  subscribeUserToChannel", e);
+            showErrorMessageInDialogBox(ERROR_MSG_UNEXPECTED);
+        }
     }
 
-    private void subscribeUserToChannel(){
+    private void subscribeUserToChannel() {
         channelController.subscribeUserToChannel(channelSubject, userObserver);
     }
 
-    private void unSubscribeUserFromChannel(){
+    private void unSubscribeUserFromChannel() {
         channelController.unSubscribeUserFromChannel(channelSubject, userObserver);
+    }
+
+    private void showErrorMessageInDialogBox(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage,
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+
+    private void showSuccessMessageInDialogBox(String successMessage){
+        JOptionPane.showMessageDialog(this, successMessage,
+                "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
 }

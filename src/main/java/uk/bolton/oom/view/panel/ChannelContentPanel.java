@@ -6,15 +6,24 @@
 package uk.bolton.oom.view.panel;
 
 import uk.bolton.oom.controller.ChannelController;
+import uk.bolton.oom.controller.impl.ChannelControllerImpl;
+import uk.bolton.oom.exception.ChannelCustomException;
 import uk.bolton.oom.factory.ControllerFactory;
 import uk.bolton.oom.observer.ChannelSubject;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static uk.bolton.oom.constant.ApplicationConstant.ERROR_MSG_UNEXPECTED;
 
 /**
  * @author Binura
  */
 public class ChannelContentPanel extends javax.swing.JPanel {
+
+    private static final Logger LOGGER = Logger.getLogger(ChannelContentPanel.class.getName());
 
     /**
      * GUI Components
@@ -161,7 +170,30 @@ public class ChannelContentPanel extends javax.swing.JPanel {
     }
 
     private void btnShareMouseClicked(java.awt.event.MouseEvent evt) {
-        String postContent = txtPostContent.getText();
-        channelController.shareNewPost(channelSubject, postContent);
+        try {
+            String postContent = txtPostContent.getText();
+            channelController.shareNewPost(channelSubject, postContent);
+            showSuccessMessageInDialogBox("Post Successfully Shared");
+            txtPostContent.setText("");
+
+        } catch (ChannelCustomException e) {
+            LOGGER.log(Level.SEVERE, "Method :  shareNewPost", e);
+            showErrorMessageInDialogBox(e.getMessage());
+
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Method :  shareNewPost", e);
+            showErrorMessageInDialogBox(ERROR_MSG_UNEXPECTED);
+        }
+    }
+
+    private void showErrorMessageInDialogBox(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage,
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+
+    private void showSuccessMessageInDialogBox(String successMessage){
+        JOptionPane.showMessageDialog(this, successMessage,
+                "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 }

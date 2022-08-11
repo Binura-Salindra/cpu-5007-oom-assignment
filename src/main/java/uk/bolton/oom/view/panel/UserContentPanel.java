@@ -7,6 +7,7 @@ package uk.bolton.oom.view.panel;
 
 import uk.bolton.oom.controller.UserController;
 import uk.bolton.oom.enums.ObserverUpdateContentType;
+import uk.bolton.oom.exception.UserCustomException;
 import uk.bolton.oom.factory.ControllerFactory;
 import uk.bolton.oom.model.Channel;
 import uk.bolton.oom.model.ObserverUpdateContent;
@@ -17,13 +18,18 @@ import uk.bolton.oom.observer.Observer;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import static uk.bolton.oom.constant.ApplicationConstant.ERROR_MSG_UNEXPECTED;
 import static uk.bolton.oom.constant.ApplicationConstant.USER_PAGE_GREETING_MSG;
 
 /**
  * @author Binura
  */
 public class UserContentPanel extends JPanel implements Observer {
+
+    private static final Logger LOGGER = Logger.getLogger(UserContentPanel.class.getName());
 
     /**
      * UI Components
@@ -38,7 +44,7 @@ public class UserContentPanel extends JPanel implements Observer {
     private JScrollPane scrpNewsFeed;
 
     /**
-     *  Class properties
+     * Class properties
      */
 
     private String userName;
@@ -176,40 +182,66 @@ public class UserContentPanel extends JPanel implements Observer {
 
     }
 
-    private void setUserDetailsAndRegister(){
-        lblUserName.setText(String.format(USER_PAGE_GREETING_MSG, userName));
-        userController.signUpUser(this);
+    private void setUserDetailsAndRegister() {
+        try {
+            lblUserName.setText(String.format(USER_PAGE_GREETING_MSG, userName));
+            userController.signUpUser(this);
+
+        } catch (UserCustomException e) {
+            LOGGER.log(Level.SEVERE, "Method :  signUpUser", e);
+            showErrorMessageInDialogBox(e.getMessage());
+
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Method :  signUpUser", e);
+            showErrorMessageInDialogBox(ERROR_MSG_UNEXPECTED);
+        }
     }
 
-    private void updateNewsFeed(Post post){
+    private void updateNewsFeed(Post post) {
         ChannelPostCard channelPostCard = new ChannelPostCard(post);
         pnlNewsFeed.add(channelPostCard, 0);
         pnlNewsFeed.revalidate();
         pnlNewsFeed.repaint();
     }
 
-    private void updateChannelList(ChannelSubject channelSubject){
+    private void updateChannelList(ChannelSubject channelSubject) {
         ChannelCard channelCard = new ChannelCard(channelSubject, this);
         pnlChannelList.add(channelCard, 0);
         pnlChannelList.revalidate();
         pnlChannelList.repaint();
     }
 
-    private void loadAlreadyExistingChannels(){
-        Set<ChannelSubject> allChannelList = userController.getAllChannelList();
-        for (ChannelSubject channelSubject : allChannelList) {
-            updateChannelList(channelSubject);
+    private void loadAlreadyExistingChannels() {
+        try {
+
+            Set<ChannelSubject> allChannelList = userController.getAllChannelList();
+            for (ChannelSubject channelSubject : allChannelList) {
+                updateChannelList(channelSubject);
+            }
+
+        } catch (UserCustomException e) {
+            LOGGER.log(Level.SEVERE, "Method :  getAllChannelList", e);
+            showErrorMessageInDialogBox(e.getMessage());
+
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Method :  getAllChannelList", e);
+            showErrorMessageInDialogBox(ERROR_MSG_UNEXPECTED);
         }
     }
 
     @Override
     public void update(ObserverUpdateContent observerUpdateContent) {
 
-       if(observerUpdateContent.getObserverUpdateContentType().equals(ObserverUpdateContentType.POST)){
-           updateNewsFeed((Post) observerUpdateContent);
-       } else{
-           Channel channel = (Channel) observerUpdateContent;
-           updateChannelList(channel.getChannelSubject());
-       }
+        if (observerUpdateContent.getObserverUpdateContentType().equals(ObserverUpdateContentType.POST)) {
+            updateNewsFeed((Post) observerUpdateContent);
+        } else {
+            Channel channel = (Channel) observerUpdateContent;
+            updateChannelList(channel.getChannelSubject());
+        }
+    }
+
+    private void showErrorMessageInDialogBox(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage,
+                "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

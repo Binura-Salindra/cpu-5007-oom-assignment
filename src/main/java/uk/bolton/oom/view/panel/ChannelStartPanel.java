@@ -6,6 +6,7 @@
 package uk.bolton.oom.view.panel;
 
 import uk.bolton.oom.controller.ChannelController;
+import uk.bolton.oom.exception.ChannelCustomException;
 import uk.bolton.oom.factory.ControllerFactory;
 import uk.bolton.oom.observer.ChannelSubject;
 import uk.bolton.oom.view.ChannelPage;
@@ -13,15 +14,20 @@ import uk.bolton.oom.view.ChannelPage;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static uk.bolton.oom.constant.ApplicationConstant.ERROR_MSG_UNEXPECTED;
 
 /**
- *
  * @author Binura
  */
 public class ChannelStartPanel extends JPanel {
 
+    private static final Logger LOGGER = Logger.getLogger(ChannelStartPanel.class.getName());
+
     /**
-     *  GUI Components
+     * GUI Components
      */
     private javax.swing.JLabel btnNext;
     private javax.swing.JLabel jLabel1;
@@ -31,7 +37,7 @@ public class ChannelStartPanel extends JPanel {
     private ChannelPage channelmainJFrame;
 
     /**
-     *  Class Properties
+     * Class Properties
      */
     private ChannelSubject channelSubject;
     private ChannelController channelController;
@@ -90,6 +96,7 @@ public class ChannelStartPanel extends JPanel {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtChannelNameFocusGained(evt);
             }
+
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtChannelNameFocusLost(evt);
             }
@@ -107,47 +114,47 @@ public class ChannelStartPanel extends JPanel {
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
         pnlMainLayout.setHorizontalGroup(
-            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlMainLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlMainLayout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(317, 317, 317))))
-            .addGroup(pnlMainLayout.createSequentialGroup()
-                .addGap(136, 136, 136)
-                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtChannelName, javax.swing.GroupLayout.PREFERRED_SIZE, 832, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 137, Short.MAX_VALUE))
+                pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlMainLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(pnlMainLayout.createSequentialGroup()
+                                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addContainerGap())
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(317, 317, 317))))
+                        .addGroup(pnlMainLayout.createSequentialGroup()
+                                .addGap(136, 136, 136)
+                                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtChannelName, javax.swing.GroupLayout.PREFERRED_SIZE, 832, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 137, Short.MAX_VALUE))
         );
         pnlMainLayout.setVerticalGroup(
-            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlMainLayout.createSequentialGroup()
-                .addGap(97, 97, 97)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(111, 111, 111)
-                .addComponent(txtChannelName, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
-                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(144, 144, 144))
+                pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlMainLayout.createSequentialGroup()
+                                .addGap(97, 97, 97)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(111, 111, 111)
+                                .addComponent(txtChannelName, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(144, 144, 144))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pnlMain.getAccessibleContext().setAccessibleName("");
@@ -168,17 +175,24 @@ public class ChannelStartPanel extends JPanel {
     }//GEN-LAST:event_txtChannelNameActionPerformed
 
     private void btnNextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseClicked
-        // TODO add your handling code here:
-        if (isValidateChannelName()) {
-      
-            String channelName = txtChannelName.getText();
-            channelSubject = new ChannelSubject(channelName);
-            channelController.signUpChannel(channelSubject);
-            loadNewPanelToContainterPanel(new ChannelContentPanel(channelSubject));
+
+        try {
+            if (isValidateChannelName()) {
+
+                String channelName = txtChannelName.getText();
+                channelSubject = new ChannelSubject(channelName);
+                channelController.signUpChannel(channelSubject);
+                loadNewPanelToContainterPanel(new ChannelContentPanel(channelSubject));
+            }
+        } catch (ChannelCustomException e) {
+            LOGGER.log(Level.SEVERE, "Method :  signUpChannel", e);
+            showErrorMessageInDialogBox(e.getMessage());
+
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Method :  signUpChannel", e);
+            showErrorMessageInDialogBox(ERROR_MSG_UNEXPECTED);
         }
-    }//GEN-LAST:event_btnNextMouseClicked
-
-
+    }
 
 
     private void loadNewPanelToContainterPanel(JPanel newPanel) {
@@ -199,4 +213,8 @@ public class ChannelStartPanel extends JPanel {
         return true;
     }
 
+    private void showErrorMessageInDialogBox(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage,
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
 }

@@ -16,6 +16,8 @@ public class ApplicationConstant {
 
     public static final String ERROR_MSG_CHANNEL_FETCH = "Channel registration failed";
 
+    public static final String ERROR_MSG_UNEXPECTED = "An unexpected error occurred";
+
 
 
 }
