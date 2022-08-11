@@ -3,7 +3,7 @@ package uk.bolton.oom.observer;
 import uk.bolton.oom.enums.ObserverUpdateContentType;
 import uk.bolton.oom.exception.ChannelCustomException;
 import uk.bolton.oom.exception.UserCustomException;
-import uk.bolton.oom.model.NewChannel;
+import uk.bolton.oom.model.Channel;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,7 +37,7 @@ public class ChannelListSubject implements Subject {
     @Override
     public void notifyObservers() {
         for (Observer observer : observers) {
-           observer.update(new NewChannel(ObserverUpdateContentType.NEW_CHANNEL_REGISTRATION, latestChannel));
+           observer.update(new Channel(ObserverUpdateContentType.NEW_CHANNEL_REGISTRATION, latestChannel));
         }
     }
 

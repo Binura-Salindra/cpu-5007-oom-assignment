@@ -8,7 +8,7 @@ package uk.bolton.oom.view.panel;
 import uk.bolton.oom.controller.UserController;
 import uk.bolton.oom.enums.ObserverUpdateContentType;
 import uk.bolton.oom.factory.ControllerFactory;
-import uk.bolton.oom.model.NewChannel;
+import uk.bolton.oom.model.Channel;
 import uk.bolton.oom.model.ObserverUpdateContent;
 import uk.bolton.oom.model.Post;
 import uk.bolton.oom.observer.ChannelSubject;
@@ -208,8 +208,8 @@ public class UserContentPanel extends JPanel implements Observer {
        if(observerUpdateContent.getObserverUpdateContentType().equals(ObserverUpdateContentType.POST)){
            updateNewsFeed((Post) observerUpdateContent);
        } else{
-           NewChannel newChannel = (NewChannel) observerUpdateContent;
-           updateChannelList(newChannel.getChannelSubject());
+           Channel channel = (Channel) observerUpdateContent;
+           updateChannelList(channel.getChannelSubject());
        }
     }
 }

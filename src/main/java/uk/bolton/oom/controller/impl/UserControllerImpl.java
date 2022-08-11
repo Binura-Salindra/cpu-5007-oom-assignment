@@ -1,18 +1,18 @@
 package uk.bolton.oom.controller.impl;
 
 import uk.bolton.oom.controller.UserController;
-import uk.bolton.oom.exception.UserCustomException;
 import uk.bolton.oom.factory.ChannelListSubjectFactory;
 import uk.bolton.oom.observer.ChannelListSubject;
 import uk.bolton.oom.observer.ChannelSubject;
 import uk.bolton.oom.observer.Observer;
 
 import java.util.Set;
-
-import static uk.bolton.oom.constant.ApplicationConstant.ERROR_MSG_CHANNEL_FETCH;
-import static uk.bolton.oom.constant.ApplicationConstant.ERROR_MSG_USER_SIGN_UP;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserControllerImpl implements UserController {
+
+    private static final Logger LOGGER = Logger.getLogger(UserControllerImpl.class.getName());
 
     private final ChannelListSubject channelListSubject;
 
@@ -25,7 +25,8 @@ public class UserControllerImpl implements UserController {
         try {
             return channelListSubject.registerObserver(userObserver);
         } catch (Exception e) {
-            throw new UserCustomException(ERROR_MSG_USER_SIGN_UP);
+            LOGGER.log(Level.SEVERE, "Method :  signUpUser", e);
+            throw e;
         }
     }
 
@@ -34,7 +35,8 @@ public class UserControllerImpl implements UserController {
         try {
             return channelListSubject.getChannelList();
         } catch (Exception e) {
-            throw new UserCustomException(ERROR_MSG_CHANNEL_FETCH);
+            LOGGER.log(Level.SEVERE, "Method :  getAllChannelList", e);
+            throw e;
         }
     }
 }

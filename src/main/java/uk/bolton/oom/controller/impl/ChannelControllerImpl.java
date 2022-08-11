@@ -1,17 +1,17 @@
 package uk.bolton.oom.controller.impl;
 
 import uk.bolton.oom.controller.ChannelController;
-import uk.bolton.oom.exception.ChannelCustomException;
 import uk.bolton.oom.factory.ChannelListSubjectFactory;
 import uk.bolton.oom.observer.ChannelListSubject;
 import uk.bolton.oom.observer.ChannelSubject;
 import uk.bolton.oom.observer.Observer;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static uk.bolton.oom.constant.ApplicationConstant.*;
-
 public class ChannelControllerImpl implements ChannelController {
+
+    private static final Logger LOGGER = Logger.getLogger(ChannelControllerImpl.class.getName());
 
     private final ChannelListSubject channelListSubject;
 
@@ -25,7 +25,8 @@ public class ChannelControllerImpl implements ChannelController {
 
             return channelSubject.registerObserver(userObserver);
         } catch (Exception e) {
-            throw new ChannelCustomException(ERROR_MSG_SUBSCRIBE);
+            LOGGER.log(Level.SEVERE, "Method :  subscribeUserToChannel", e);
+            throw e;
         }
     }
 
@@ -34,7 +35,8 @@ public class ChannelControllerImpl implements ChannelController {
         try {
             return channelSubject.unRegisterObserver(userObserver);
         } catch (Exception e) {
-            throw new ChannelCustomException(ERROR_MSG_UNSUBSCRIBE);
+            LOGGER.log(Level.SEVERE, "Method :  unSubscribeUserFromChannel", e);
+            throw e;
         }
     }
 
@@ -44,7 +46,8 @@ public class ChannelControllerImpl implements ChannelController {
             channelSubject.shareNewPost(content);
             return true;
         } catch (Exception e) {
-            throw new ChannelCustomException(ERROR_MSG_POST_SHARE);
+            LOGGER.log(Level.SEVERE, "Method :  shareNewPost", e);
+            throw e;
         }
     }
 
@@ -54,7 +57,8 @@ public class ChannelControllerImpl implements ChannelController {
             channelListSubject.registerNewChannel(channelSubject);
             return true;
         } catch (Exception e) {
-            throw new ChannelCustomException(ERROR_MSG_CHANNEL_SIGN_UP);
+            LOGGER.log(Level.SEVERE, "Method :  signUpChannel", e);
+            throw e;
         }
     }
 }
