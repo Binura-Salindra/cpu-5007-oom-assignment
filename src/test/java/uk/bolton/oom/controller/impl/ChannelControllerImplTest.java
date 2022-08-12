@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import uk.bolton.oom.exception.ChannelCustomException;
-import uk.bolton.oom.factory.ChannelListSubjectFactory;
+import uk.bolton.oom.factory.ChannelListSubjectSingleton;
 import uk.bolton.oom.model.ObserverUpdateContent;
 import uk.bolton.oom.observer.ChannelListSubject;
 import uk.bolton.oom.observer.ChannelSubject;
@@ -29,7 +29,7 @@ class ChannelControllerImplTest {
 
     @BeforeEach
     void setUp() {
-        channelListSubject = ChannelListSubjectFactory.getInstance().getChannelListSubject();
+        channelListSubject = ChannelListSubjectSingleton.getInstance().getChannelListSubject();
         observers = new HashSet<>();
         channelSubject = new ChannelSubject("Testing Channel");
         testObserver = new TestObserverUser("Testing first User");

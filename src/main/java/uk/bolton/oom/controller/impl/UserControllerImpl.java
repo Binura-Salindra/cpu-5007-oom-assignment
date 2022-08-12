@@ -1,7 +1,7 @@
 package uk.bolton.oom.controller.impl;
 
 import uk.bolton.oom.controller.UserController;
-import uk.bolton.oom.factory.ChannelListSubjectFactory;
+import uk.bolton.oom.factory.ChannelListSubjectSingleton;
 import uk.bolton.oom.observer.ChannelListSubject;
 import uk.bolton.oom.observer.ChannelSubject;
 import uk.bolton.oom.observer.Observer;
@@ -17,7 +17,7 @@ public class UserControllerImpl implements UserController {
     private final ChannelListSubject channelListSubject;
 
     public UserControllerImpl() {
-        channelListSubject = ChannelListSubjectFactory.getInstance().getChannelListSubject();
+        channelListSubject = ChannelListSubjectSingleton.getInstance().getChannelListSubject();
     }
 
     @Override
