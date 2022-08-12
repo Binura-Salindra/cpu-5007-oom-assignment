@@ -16,6 +16,9 @@ public class ChannelListSubject implements Subject {
     private final Set<ChannelSubject> channelList;
     private ChannelSubject latestChannel;
 
+    // this is the object we will be synchronizing on ("the monitor")
+    private final Object MONITOR = new Object();
+
     public ChannelListSubject() {
         observers = new HashSet<>();
         channelList = new HashSet<>();
@@ -36,8 +39,10 @@ public class ChannelListSubject implements Subject {
 
     @Override
     public void notifyObservers() {
-        for (Observer observer : observers) {
-           observer.update(new Channel(ObserverUpdateContentType.NEW_CHANNEL_REGISTRATION, latestChannel));
+        synchronized(MONITOR) {
+            for (Observer observer : observers) {
+                observer.update(new Channel(ObserverUpdateContentType.NEW_CHANNEL_REGISTRATION, latestChannel));
+            }
         }
     }
 
