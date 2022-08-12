@@ -157,6 +157,7 @@ public class ChannelContentPanel extends javax.swing.JPanel {
 
         pnlMain.getAccessibleContext().setAccessibleName("");
         lblChannelName.setText(channelSubject.getChannelName());
+        lblSubscriberCount.setVisible(false);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtPostContentFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPostContentFocusGained
